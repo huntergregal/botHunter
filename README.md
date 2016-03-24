@@ -1,6 +1,11 @@
 # botHunter
 Scans the internet for open FTP servers looking for common malware bot droppers and grabs them for sampling. Also provides support for uploading samples to VirusTotal.
 
+Scanning based on https://github.com/kennell/ftpknocker 
+Copyright (c) 2014, kevin@fileperms.org All rights reserved.
+
+Bot Hunting capabilities added by Hunter Gregal
+
 ##Requirements
 ------------
 
@@ -61,11 +66,6 @@ Feed targets from a other programm using a pipe (must be IPs, seperated by newli
 ```
 cat mytargets.txt | ./botHunter.py
 ```
-
-Scanning based on https://github.com/kennell/ftpknocker 
-Copyright (c) 2014, kevin@fileperms.org All rights reserved.
-
-botHunting capabilities added by Hunter Gregal
 
 
 
