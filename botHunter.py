@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 '''
-FTP Scanning code based on https://github.com/kennell/ftpknocker
+Scanning code based on https://github.com/kennell/ftpknocker
 '''
 
 
