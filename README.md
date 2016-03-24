@@ -60,9 +60,12 @@ Scan an entire IP-block using <a href="http://en.wikipedia.org/wiki/Classless_In
 Feed targets from a other programm using a pipe (must be IPs, seperated by newlines!): 
 ```
 cat mytargets.txt | ./botHunter.py
-'''
-'''
-Scanning based on https://github.com/kennell/ftpknocker -- Copyright (c) 2014, kevin@fileperms.org All rights reserved.
-'''
+```
+
+Scanning based on https://github.com/kennell/ftpknocker 
+Copyright (c) 2014, kevin@fileperms.org All rights reserved.
+
+botHunting capabilities added by Hunter Gregal
+
 
 
