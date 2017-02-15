@@ -5,27 +5,34 @@ Scanning code based on https://github.com/kennell/ftpknocker
 
 
 import ftplib
-import sys, os
+import sys, os, urllib
 import threading
 from argparse import ArgumentParser
 from netaddr import IPSet
 from random import shuffle
 
-KNOWN_BOTS = ["pbot.php"]
-
+KNOWN_BOTS = ["pbot.php", "pma.php", "lol.php", "kok.php", "bot", "bot2", "nmlt1.sh", "bobo", "dxd2.txt",
+		"bot.php", "go.php"]
+COMMON_DIRS = ["pub", "bots", "bot"]
 #check for known bots
 def bot_check(ftp, host):
 	fileList = ftp.nlst()
-	for knownBot in KNOWN_BOTS:
-		for fileName in fileList:
-			if fileName.lower() == knownBot.lower():
-				outputFile = "output/%s-%s" % (host, fileName)
-				print("[+] Potential bot found: %s  @@  %s") % (fileName, host)
-				with open(outputFile, 'w') as f:
-					try:
-						ftp.retrbinary('RETR %s' % fileName, f.write)
-					except Exception as e:
-						print("Error getting file: %s" % repr(e))
+	for fileName in fileList:
+		if fileName.lower() in KNOWN_BOTS:
+			outputFile = "output/%s-%s_%s" % (host, urllib.quote_plus(ftp.pwd()), fileName)
+			print("[+] Potential bot found: %s  @@  %s") % (ftp.pwd()+"/"+fileName, host)
+			with open(outputFile, 'w') as f:
+				try:
+					ftp.retrbinary('RETR %s' % fileName, f.write)
+				except Exception as e:
+					print("Error getting file: %s" % repr(e))
+		if fileName.lower() in COMMON_DIRS:
+			try:
+				ftp.cwd(fileName)
+				bot_check(ftp, host)
+			except Exception as e:
+				print repr(e)
+			
 #output dir
 def check_output():
 	if not os.path.exists("output"):
