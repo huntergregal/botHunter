@@ -1,16 +1,35 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 '''
 Scanning code based on https://github.com/kennell/ftpknocker
 '''
 
 
 import ftplib
-import sys
+import sys, os
 import threading
 from argparse import ArgumentParser
 from netaddr import IPSet
 from random import shuffle
 
+KNOWN_BOTS = ["pbot.php"]
+
+#check for known bots
+def bot_check(ftp, host):
+	fileList = ftp.nlst()
+	for knownBot in KNOWN_BOTS:
+		for fileName in fileList:
+			if fileName.lower() == knownBot.lower():
+				outputFile = "output/%s-%s" % (host, fileName)
+				print("[+] Potential bot found: %s  @@  %s") % (fileName, host)
+				with open(outputFile, 'w') as f:
+					try:
+						ftp.retrbinary('RETR %s' % fileName, f.write)
+					except Exception as e:
+						print("Error getting file: %s" % repr(e))
+#output dir
+def check_output():
+	if not os.path.exists("output"):
+		os.makedirs("output")
 # Split list
 def split_list(l, parts):
 	newlist = []
@@ -27,15 +46,15 @@ def try_ftp_login(hosts):
 			ftp = ftplib.FTP()
 			ftp.connect(host=host, timeout=args.timeout)
 			if '230' in ftp.login():
-				#check for bots, if so download the bot, and upload it to VT
-				#folderName = 'yourFolderName'
-				#if folderName in ftp.nlst():
+				#check for bots, if so download the bot
+				bot_check(ftp, host)
 				ftp.quit()
 		except ftplib.all_errors:
 			pass
 
+
 # Init Argument parser
-argparser = ArgumentParser()
+argparser = ArgumentParser(description="Scans targets for anonymous ftp servers - looking for known botnet files.")
 argparser.add_argument('targets',
 	nargs='*')
 argparser.add_argument('-t', '--threads',
@@ -65,6 +84,9 @@ if not sys.stdin.isatty():
 targetSet = IPSet()
 for t in args.targets:
 	targetSet.add(t)
+
+#output dir
+check_output()
 
 # Render IPSets to a list
 targetlist = list()

@@ -1,5 +1,5 @@
 # botHunter
-Scans the internet for open FTP servers looking for common malware bot droppers and grabs them for sampling. Also provides support for uploading samples to VirusTotal.
+Scans the internet for open FTP servers looking for common malware bot droppers and grabs them for analysis. Downloads stored in output/ dir.
 
 Scanning based on https://github.com/kennell/ftpknocker 
 Copyright (c) 2014, kevin@fileperms.org All rights reserved.
@@ -12,11 +12,10 @@ Bot Hunting capabilities added by Hunter Gregal
 The **netaddr** module must be installed, on Debian/Ubuntu systems simply run:
 
 ```
-sudo apt-get install python3-pip
-sudo pip3 install netaddr
+sudo apt-get install python-pip
+sudo pip install -r requirements.txt
 ```
 
-Using Python 3 is recommended, but it should run on 2.x just fine.
 
 ##Install
 -------

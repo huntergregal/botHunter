@@ -1,0 +1,6 @@
+appdirs==1.4.0
+netaddr==0.7.19
+packaging==16.8
+pkg-resources==0.0.0
+pyparsing==2.1.10
+six==1.10.0
